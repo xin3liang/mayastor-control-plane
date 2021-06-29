@@ -4,8 +4,10 @@ use common::{
     errors::{GrpcRequestError, NodeNotFound, SvcError},
     v0::msg_translation::RpcToMessageBus,
 };
-use common_lib::types::v0::message_bus::mbus::{GetSpecs, Node, NodeId, NodeState, Specs};
-use rpc::mayastor::ListBlockDevicesRequest;
+use common_lib::{
+    rpc::ListBlockDevicesRequest,
+    types::v0::message_bus::mbus::{GetSpecs, Node, NodeId, NodeState, Specs},
+};
 use snafu::{OptionExt, ResultExt};
 use std::sync::Arc;
 use tokio::sync::Mutex;

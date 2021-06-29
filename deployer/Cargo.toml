@@ -17,11 +17,9 @@ path = "src/lib.rs"
 [dependencies]
 composer = { path = "../composer" }
 common-lib = { path = "../common" }
-nats = "0.8"
 structopt = "0.3.15"
 tokio = { version = "0.2", features = ["full"] }
 async-trait = "=0.1.42"
-rpc = "0.1.0"
 strum = "0.19"
 strum_macros = "0.19"
 paste = "1.0.4"

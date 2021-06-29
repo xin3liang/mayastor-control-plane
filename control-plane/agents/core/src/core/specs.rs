@@ -67,7 +67,7 @@ pub trait SpecOperations: Clone + Debug + Sized + StorableObject {
         let spec_clone = spec.clone();
         drop(spec);
 
-        Self::store_operation_log(registry, &locked_spec, &spec_clone).await?;
+        Self::store_operation_log(registry, locked_spec, &spec_clone).await?;
         Ok(())
     }
 
@@ -177,7 +177,7 @@ pub trait SpecOperations: Clone + Debug + Sized + StorableObject {
             drop(spec);
 
             // resource specific validation rules
-            if let Err(error) = Self::validate_destroy(&locked_spec, registry).await {
+            if let Err(error) = Self::validate_destroy(locked_spec, registry).await {
                 let mut spec = locked_spec.lock().await;
                 spec.set_updating(false);
                 return Err(error);
@@ -191,7 +191,7 @@ pub trait SpecOperations: Clone + Debug + Sized + StorableObject {
             let spec_clone = spec.clone();
             drop(spec);
 
-            Self::store_operation_log(registry, &locked_spec, &spec_clone).await?;
+            Self::store_operation_log(registry, locked_spec, &spec_clone).await?;
             Ok(())
         }
     }
@@ -264,7 +264,7 @@ pub trait SpecOperations: Clone + Debug + Sized + StorableObject {
         let spec_clone = spec.start_update_inner(status, update_operation, false)?;
         drop(spec);
 
-        Self::store_operation_log(registry, &locked_spec, &spec_clone).await?;
+        Self::store_operation_log(registry, locked_spec, &spec_clone).await?;
         Ok(spec_clone)
     }
 

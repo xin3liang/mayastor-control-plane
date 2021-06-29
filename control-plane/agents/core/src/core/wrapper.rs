@@ -5,6 +5,7 @@ use common::{
 };
 use common_lib::{
     mbus_api::ResourceKind,
+    rpc::Null,
     types::v0::message_bus::mbus::{
         AddNexusChild, Child, ChildUri, CreateNexus, CreatePool, CreateReplica, DestroyNexus,
         DestroyPool, DestroyReplica, Nexus, NexusId, Node, NodeId, NodeState, Pool, PoolId,
@@ -12,7 +13,6 @@ use common_lib::{
         UnshareNexus, UnshareReplica,
     },
 };
-use rpc::mayastor::Null;
 use snafu::ResultExt;
 use std::{cmp::Ordering, collections::HashMap};
 
@@ -636,20 +636,20 @@ impl ClientOps for Arc<tokio::sync::Mutex<NodeWrapper>> {
 }
 
 /// convert rpc pool to a message bus pool
-fn rpc_pool_to_bus(rpc_pool: &rpc::mayastor::Pool, id: &NodeId) -> Pool {
+fn rpc_pool_to_bus(rpc_pool: &common_lib::rpc::Pool, id: &NodeId) -> Pool {
     let mut pool = rpc_pool.to_mbus();
     pool.node = id.clone();
     pool
 }
 
 /// convert rpc replica to a message bus replica
-fn rpc_replica_to_bus(rpc_replica: &rpc::mayastor::Replica, id: &NodeId) -> Replica {
+fn rpc_replica_to_bus(rpc_replica: &common_lib::rpc::Replica, id: &NodeId) -> Replica {
     let mut replica = rpc_replica.to_mbus();
     replica.node = id.clone();
     replica
 }
 
-fn rpc_nexus_to_bus(rpc_nexus: &rpc::mayastor::Nexus, id: &NodeId) -> Nexus {
+fn rpc_nexus_to_bus(rpc_nexus: &common_lib::rpc::Nexus, id: &NodeId) -> Nexus {
     let mut nexus = rpc_nexus.to_mbus();
     nexus.node = id.clone();
     nexus

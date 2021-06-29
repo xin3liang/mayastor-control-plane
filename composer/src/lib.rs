@@ -26,8 +26,8 @@ use bollard::{
     container::KillContainerOptions, image::CreateImageOptions, models::ContainerInspectResponse,
     network::DisconnectNetworkOptions,
 };
+use common_lib::rpc::{bdev_rpc_client::BdevRpcClient, mayastor_client::MayastorClient};
 pub use common_lib::{mbus_api, mbus_api::TimeoutOptions};
-use rpc::mayastor::{bdev_rpc_client::BdevRpcClient, mayastor_client::MayastorClient};
 
 pub const TEST_NET_NAME: &str = "mayastor-testing-network";
 pub const TEST_NET_NETWORK: &str = "10.1.0.0/16";
@@ -1249,7 +1249,7 @@ impl ComposeTest {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rpc::mayastor::Null;
+    use common_lib::rpc::Null;
 
     #[tokio::test]
     async fn compose() {

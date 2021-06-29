@@ -10,8 +10,6 @@ edition = "2018"
 tokio = { version = "0.2", features = ["full"] }
 futures = "0.3.8"
 tonic = "0.1"
-crossbeam = "0.7.3"
-rpc = "0.1.0"
 ipnetwork = "0.17.0"
 bollard = "0.8.0"
 tracing = "0.1"

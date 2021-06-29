@@ -205,7 +205,7 @@ impl ResourceSpecsLocked {
         registry: &Registry,
         request: &CreateVolume,
     ) -> Result<Volume, SvcError> {
-        let volume = self.get_or_create_volume(&request).await;
+        let volume = self.get_or_create_volume(request).await;
         SpecOperations::start_create(&volume, registry, request).await?;
 
         // todo: pick nodes and pools using the Node&Pool Topology
@@ -286,7 +286,7 @@ impl ResourceSpecsLocked {
     ) -> Result<(), SvcError> {
         let volume = self.get_volume(&request.uuid).await;
         if let Some(volume) = &volume {
-            SpecOperations::start_destroy(&volume, registry, false).await?;
+            SpecOperations::start_destroy(volume, registry, false).await?;
 
             let mut first_error = Ok(());
             let nexuses = self.get_volume_nexuses(&request.uuid).await;
@@ -325,7 +325,7 @@ impl ResourceSpecsLocked {
                 }
             }
 
-            SpecOperations::complete_destroy(first_error, &volume, registry).await
+            SpecOperations::complete_destroy(first_error, volume, registry).await
         } else {
             Err(SvcError::VolumeNotFound {
                 vol_id: request.uuid.to_string(),

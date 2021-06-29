@@ -1,5 +1,5 @@
 use super::*;
-use nats::asynk::Connection;
+use async_nats::Connection;
 use once_cell::sync::OnceCell;
 use tracing::{info, warn};
 
@@ -61,7 +61,7 @@ impl NatsMessageBus {
         loop {
             match BusOptions::new()
                 .max_reconnects(None)
-                .connect_async(server)
+                .connect(server)
                 .await
             {
                 Ok(connection) => {

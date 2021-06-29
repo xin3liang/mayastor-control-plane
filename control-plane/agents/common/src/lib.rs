@@ -13,7 +13,7 @@ use std::{
 
 use async_trait::async_trait;
 use dyn_clonable::clonable;
-use futures::{future::join_all, stream::StreamExt};
+use futures::future::join_all;
 use snafu::{OptionExt, ResultExt, Snafu};
 use state::Container;
 use tracing::{debug, error};
@@ -287,7 +287,7 @@ impl Service {
         subscriptions: &[Box<dyn ServiceSubscriber>],
         state: std::sync::Arc<Container>,
     ) -> Result<(), ServiceError> {
-        let mut handle = bus.subscribe(channel.clone()).await.context(Subscribe {
+        let handle = bus.subscribe(channel.clone()).await.context(Subscribe {
             channel: channel.clone(),
         })?;
 

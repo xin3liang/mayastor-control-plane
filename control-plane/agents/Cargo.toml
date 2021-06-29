@@ -17,7 +17,6 @@ name = "common"
 path = "common/src/lib.rs"
 
 [dependencies]
-nats = "0.8"
 structopt = "0.3.15"
 tokio = { version = "0.2", features = ["full"] }
 tonic = "0.1"
@@ -33,7 +32,6 @@ state = "0.4.2"
 tracing = "0.1"
 tracing-subscriber = "0.2"
 tracing-futures = "0.2.4"
-rpc = "0.1.0"
 http = "0.2.3"
 paste = "1.0.4"
 common-lib = { path = "../../common" }

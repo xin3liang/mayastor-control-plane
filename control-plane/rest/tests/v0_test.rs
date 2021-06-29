@@ -1,14 +1,16 @@
-use common_lib::types::v0::message_bus::mbus::{
-    AddNexusChild, ChannelVs, Child, ChildState, CreateNexus, CreatePool, CreateReplica,
-    CreateVolume, DestroyNexus, DestroyPool, DestroyReplica, DestroyVolume, Filter,
-    GetBlockDevices, JsonGrpcRequest, Liveness, Nexus, NexusState, Node, NodeId, NodeState, Pool,
-    PoolState, Protocol, Replica, ReplicaState, VolumeId, WatchResourceId,
+use common_lib::{
+    rpc::Null,
+    types::v0::message_bus::mbus::{
+        AddNexusChild, ChannelVs, Child, ChildState, CreateNexus, CreatePool, CreateReplica,
+        CreateVolume, DestroyNexus, DestroyPool, DestroyReplica, DestroyVolume, Filter,
+        GetBlockDevices, JsonGrpcRequest, Liveness, Nexus, NexusState, Node, NodeId, NodeState,
+        Pool, PoolState, Protocol, Replica, ReplicaState, VolumeId, WatchResourceId,
+    },
 };
 use composer::{Binary, Builder, ComposeTest, ContainerSpec};
 use mbus_api::Message;
 use opentelemetry::{global, sdk::propagation::TraceContextPropagator};
 use rest_client::{versions::v0::*, ActixRestClient};
-use rpc::mayastor::Null;
 use std::{
     io,
     net::{SocketAddr, TcpStream},
