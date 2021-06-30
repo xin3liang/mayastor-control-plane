@@ -15,7 +15,6 @@ let
   norust_moth = "You have requested an environment without rust, you should provide it!";
   nomayastor_moth = "You have requested an environment without mayastor, you should provide it!";
   channel = import ./nix/lib/rust.nix { inherit sources; };
-  mayastor = import pkgs.mayastor-src { };
 in
 mkShell {
   buildInputs = [
@@ -35,8 +34,7 @@ mkShell {
     docker
     etcd
   ]
-  ++ pkgs.lib.optional (!norust) channel.nightly.rust
-  ++ pkgs.lib.optional (!nomayastor) mayastor.units.debug.mayastor;
+  ++ pkgs.lib.optional (!norust) channel.nightly.rust;
 
   LIBCLANG_PATH = control-plane.LIBCLANG_PATH;
   PROTOC = control-plane.PROTOC;
