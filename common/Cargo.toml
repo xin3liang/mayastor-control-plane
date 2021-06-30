@@ -19,7 +19,7 @@ once_cell = "1.4.1"
 paperclip = { version = "0.5.0", features = ["actix3"] }
 percent-encoding = "2.1.0"
 # this revision prevents the upgrade to 0.4.0 tonic
-rpc = { git = "https://github.com/openebs/mayastor", rev = "2868e83704177e439d7bfb4cbd94cff5a371db91" }
+rpc = { git = "https://github.com/gila/rpc", branch = "v0.1" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 smol = "1.0.0"
