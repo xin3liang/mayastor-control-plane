@@ -2,7 +2,7 @@ use crate::{
     operations::{Get, List},
     resources::{
         utils,
-        utils::{CreateRows, GetHeaderRow},
+        utils::{CreateRows, GetHeaderRow, OutputFormat},
         NodeId,
     },
     rest_wrapper::RestClient,
@@ -48,9 +48,12 @@ impl List for Nodes {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, nodes.into_body());
             }
-            Err(e) => {
-                println!("Failed to list nodes. Error {}", e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to list nodes.")
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }
@@ -71,9 +74,12 @@ impl Get for Node {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, node.into_body());
             }
-            Err(e) => {
-                println!("Failed to get node {}. Error {}", id, e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to get node {}.", id)
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }

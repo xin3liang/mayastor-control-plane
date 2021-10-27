@@ -2,7 +2,7 @@ use crate::{
     operations::{Get, List},
     resources::{
         utils,
-        utils::{CreateRows, GetHeaderRow},
+        utils::{CreateRows, GetHeaderRow, OutputFormat},
         PoolId,
     },
     rest_wrapper::RestClient,
@@ -66,9 +66,12 @@ impl List for Pools {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, pools.into_body());
             }
-            Err(e) => {
-                println!("Failed to list pools. Error {}", e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to list pools.")
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }
@@ -89,9 +92,12 @@ impl Get for Pool {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, pool.into_body());
             }
-            Err(e) => {
-                println!("Failed to get pool {}. Error {}", id, e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to get pool {}.", id)
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }

@@ -1,5 +1,7 @@
+use openapi::{apis::StatusCode, clients::tower::Error, models::RestJsonError};
 use prettytable::{format, Row, Table};
 use serde::ser;
+use serde_json::json;
 
 /// Constant to specify the output formats, these should work irrespective of case.
 pub const YAML_FORMAT: &str = "yaml";
@@ -122,5 +124,32 @@ where
             let header: Row = obj.get_header_row();
             table_printer(header, rows);
         }
+    }
+}
+
+pub fn format_error(output: &OutputFormat, e: Error<RestJsonError>) {
+    let error = match e {
+        Error::Request(_) => {
+            json!({ "status_code": StatusCode::SERVICE_UNAVAILABLE.as_u16() })
+        }
+        Error::Response(err) => {
+            json!({
+                "status_code": err.status().as_u16()
+            })
+        }
+    };
+
+    match output {
+        OutputFormat::Yaml => {
+            // Show the YAML form output if output format is YAML.
+            let s = serde_yaml::to_string(&error).unwrap();
+            println!("{}", s);
+        }
+        OutputFormat::Json => {
+            // Show the JSON form output if output format is JSON.
+            let s = serde_json::to_string(&error).unwrap();
+            println!("{}", s);
+        }
+        _ => {}
     }
 }

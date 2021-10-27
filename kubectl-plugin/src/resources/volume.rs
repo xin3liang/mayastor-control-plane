@@ -58,9 +58,12 @@ impl List for Volumes {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, volumes.into_body());
             }
-            Err(e) => {
-                println!("Failed to list volumes. Error {}", e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to list volumes.")
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }
@@ -83,9 +86,12 @@ impl Get for Volume {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, volume.into_body());
             }
-            Err(e) => {
-                println!("Failed to get volume {}. Error {}", id, e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to get volume {}.", id)
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }
@@ -106,12 +112,15 @@ impl Scale for Volume {
                 }
                 OutputFormat::NoFormat => {
                     // In case the output format is not specified, show a success message.
-                    println!("Volume {} Scaled Successfully 🚀", id)
+                    println!("Volume {} Scaled Successfully 🚀.", id)
                 }
             },
-            Err(e) => {
-                println!("Failed to scale volume {}. Error {}", id, e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to scale volume {}.", id)
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }
@@ -125,9 +134,12 @@ impl ReplicaTopology for Volume {
                 // Print table, json or yaml based on output format.
                 utils::print_table(output, volume.into_body().state.replica_topology);
             }
-            Err(e) => {
-                println!("Failed to get volume {}. Error {}", id, e)
-            }
+            Err(e) => match output {
+                OutputFormat::NoFormat => {
+                    println!("Failed to get volume {}.", id)
+                }
+                _ => utils::format_error(output, e),
+            },
         }
     }
 }
