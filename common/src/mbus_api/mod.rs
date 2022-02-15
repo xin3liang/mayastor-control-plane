@@ -31,7 +31,7 @@ use std::{
 };
 use strum_macros::{AsRefStr, ToString};
 use tokio::task::JoinError;
-use tonic::Status;
+use tonic::{Code, Status};
 
 /// Result wrapper for send/receive
 pub type BusResult<T> = Result<T, Error>;
@@ -347,6 +347,12 @@ pub struct ReplyError {
 impl From<tonic::Status> for ReplyError {
     fn from(status: Status) -> Self {
         Self::tonic_reply_error(status.to_string(), status.full_string())
+    }
+}
+
+impl From<ReplyError> for tonic::Status {
+    fn from(err: ReplyError) -> Self {
+        tonic::Status::new(Code::Aborted, err.full_string())
     }
 }
 
